@@ -16,6 +16,4 @@ These links point to professional contributions, separate from the lab:
 
 Start with the two drills in the README. Then inspect `readiness_failure`, `business_failure`, and `smoke` in `tools/lab.py`. The useful questions are why the checks differ, what the rollback proves, and which failure conditions must remain test failures.
 
-The generator and AppProject describe a narrow service onboarding path. The decisions document records its current boundaries. The validation record distinguishes executed checks from code awaiting a cluster run.
-
-There is no claimed customer adoption, production uptime, cost reduction, or production cluster scale for this personal project.
+The generator and AppProject describe a narrow service onboarding path. The decisions document records its current boundaries. The validation record links the checks that have been executed.

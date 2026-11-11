@@ -24,6 +24,8 @@ The readiness test also confirms that a new pod is actually running with the inj
 
 Ten requests are a functional sample. They are not a load test, an uninterrupted-availability measurement, or proof that no request was lost during recovery.
 
+The first CI run caught a 503 after Helm had completed the business-failure rollback. Diagnostics showed two ready `good` pods and a terminating `business-bad` pod. Recovery now includes a bounded 30-second functional convergence window after rollout completion. The report records the number of attempts and total recovery time; a persistent failure still fails the exercise.
+
 ## Keep health checks out of the business error ratio
 
 Successful health probes can dominate a quiet service's request count and hide failing business traffic. Only business and unknown-route requests contribute to the request histogram and counter. Unknown paths share a `not_found` label to bound metric cardinality. Query strings are not written to request logs.

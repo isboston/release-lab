@@ -136,7 +136,24 @@ def revision():
 
 
 def rollback(target):
+    started = time.monotonic()
     run("helm", "rollback", "probe", target, "-n", NAMESPACE, "--wait", "--timeout", "120s")
+    run("kubectl", "-n", NAMESPACE, "rollout", "status", "deployment/probe", "--timeout=120s")
+    # Ready replica counts can converge before old endpoints stop receiving traffic.
+    # Bound the recovery window and require a complete functional sample to pass.
+    deadline = time.monotonic() + 30
+    attempts = 0
+    while True:
+        attempts += 1
+        try:
+            smoke("good")
+            return {"recovery_seconds": round(time.monotonic() - started, 2),
+                    "recovery_check_attempts": attempts}
+        except RuntimeError:
+            if time.monotonic() >= deadline:
+                raise
+            print("Waiting for Service traffic to converge after rollback...", flush=True)
+            time.sleep(1)
 
 
 def diagnostics(label):
@@ -175,8 +192,7 @@ def readiness_failure():
         if request(base, "/readyz")[0] != 503 or request(base, "/healthz")[0] != 200:
             raise RuntimeError("The injected readiness failure was not observed")
     smoke("good")  # Old Ready pods still serve the service during a blocked rollout.
-    rollback(good)
-    smoke("good")
+    return rollback(good)
 
 
 def business_failure():
@@ -186,8 +202,7 @@ def business_failure():
         if request(base, "/readyz")[0] != 200 or request(base, "/work")[0] != 503:
             raise RuntimeError("Expected healthy readiness and a failed business request")
     diagnostics("business-failure")
-    rollback(good)
-    smoke("good")
+    return rollback(good)
 
 
 def e2e():
@@ -201,14 +216,14 @@ def e2e():
         started = time.monotonic()
         print(f"Running: {name}", flush=True)
         try:
-            operation()
+            details = operation()
         except Exception:
             diagnostics("unexpected-failure")
             report["checks"].append({"name": name, "passed": False})
             (ARTIFACTS / "e2e.json").write_text(json.dumps(report, indent=2) + "\n")
             raise
         report["checks"].append({"name": name, "passed": True,
-                                 "elapsed_seconds": round(time.monotonic() - started, 2)})
+                                 "elapsed_seconds": round(time.monotonic() - started, 2), **details})
     (ARTIFACTS / "e2e.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2), flush=True)
 

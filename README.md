@@ -16,6 +16,7 @@ The workload is a tiny Python HTTP service. The engineering work is in the deliv
 | A new service's values and GitOps boundary | [Service generator](tools/new_service.py) |
 | Actual checks completed so far | [Validation record](docs/validation.md) |
 | Design choices and boundaries | [Decisions](docs/decisions.md) |
+| Reproduce the demonstration | [Demo walkthrough](docs/demo.md) |
 
 This is a personal engineering lab. It is not a production platform or a claim of production Kubernetes experience.
 
@@ -24,7 +25,7 @@ This is a personal engineering lab. It is not a production platform or a claim o
 1. **Readiness regression.** The new pods start, but `/readyz` returns 503. The rollout times out. The check confirms that the fault actually ran, sends functional requests through the Kubernetes Service to the previous version, captures diagnostics, rolls back, and checks the response again.
 2. **Business regression.** `/readyz` returns 200, but `/work` returns 503. Kubernetes accepts the rollout. A functional request catches the failure; the drill captures diagnostics, rolls back, and checks both the response digest and version.
 
-Each completed drill writes its result and elapsed time to `artifacts/e2e.json`. These are timings of a local exercise, not availability or recovery guarantees.
+Each completed drill writes its result, elapsed time, recovery time and verification attempts to `artifacts/e2e.json`. Recovery requires a passing functional sample within a bounded window after rollback. These are timings of a local exercise, not availability or recovery guarantees.
 
 ```mermaid
 flowchart LR

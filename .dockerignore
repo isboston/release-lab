@@ -1,5 +1,7 @@
 .git
 .tools
+.venv
+.env
 artifacts
 **/__pycache__
 tests
