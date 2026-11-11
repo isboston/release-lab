@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-11-11T10:01:49.692806+00:00",
+  "argocd": "v3.6.1",
+  "synced_revision": "25080eb5d4d5bc97ba116811bdc9318386012cdf",
+  "health": "Healthy",
+  "sync": "Synced",
+  "functional_check": "passed",
+  "replica_drift_restored": true,
+  "drift_recovery_seconds": 3.92
+}

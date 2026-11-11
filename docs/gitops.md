@@ -10,6 +10,8 @@ After the repository is on GitHub, run the manual **Publish probe image** workfl
 
 Do not use a guessed digest or `latest`. The generator rejects mutable tags.
 
+The shared chart expects an HTTP service on port 8080 with `/healthz`, `/readyz`, and `/metrics` endpoints. The checked-in example uses the probe workload from this repository; onboarding a different application requires adapting or implementing that contract.
+
 ## 2. Generate a service
 
 Replace the repository and digest with real values:

@@ -1,5 +1,8 @@
 # release-lab
 
+[![Delivery checks](https://github.com/isboston/release-lab/actions/workflows/ci.yaml/badge.svg)](https://github.com/isboston/release-lab/actions/workflows/ci.yaml)
+[![GitOps onboarding](https://github.com/isboston/release-lab/actions/workflows/gitops.yaml/badge.svg)](https://github.com/isboston/release-lab/actions/workflows/gitops.yaml)
+
 A small Kubernetes delivery lab with two deliberately broken releases and a recovery check for each.
 
 The question it answers is simple: **after a deployment goes wrong, can we show what failed and prove that the previous version is working again?**
