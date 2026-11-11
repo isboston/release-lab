@@ -1,0 +1,43 @@
+{
+  "apiVersion": "argoproj.io/v1alpha1",
+  "kind": "AppProject",
+  "metadata": {
+    "name": "demo",
+    "namespace": "argocd"
+  },
+  "spec": {
+    "description": "Delivery boundary for demo, owned by platform-team",
+    "sourceRepos": [
+      "https://github.com/isboston/release-lab.git"
+    ],
+    "destinations": [
+      {
+        "server": "https://kubernetes.default.svc",
+        "namespace": "demo"
+      }
+    ],
+    "clusterResourceWhitelist": [],
+    "namespaceResourceWhitelist": [
+      {
+        "group": "apps",
+        "kind": "Deployment"
+      },
+      {
+        "group": "",
+        "kind": "Service"
+      },
+      {
+        "group": "",
+        "kind": "ServiceAccount"
+      },
+      {
+        "group": "policy",
+        "kind": "PodDisruptionBudget"
+      },
+      {
+        "group": "networking.k8s.io",
+        "kind": "NetworkPolicy"
+      }
+    ]
+  }
+}

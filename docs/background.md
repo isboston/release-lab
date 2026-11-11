@@ -1,6 +1,6 @@
 # Engineering background
 
-Vladimir / [isboston](https://github.com/isboston) — DevOps Engineer at ONLYOFFICE, working on Linux packaging, installation, CI/CD, and deployment automation.
+Vladimir / [isboston](https://github.com/isboston) — DevOps engineer focused on Linux packaging, installation, CI/CD, and deployment automation.
 
 This repository is a personal lab extending that work toward Kubernetes delivery and developer tooling.
 

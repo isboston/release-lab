@@ -1,0 +1,37 @@
+name: Verify GitOps onboarding
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitops-demo
+  cancel-in-progress: false
+
+jobs:
+  gitops:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - run: python tools/bootstrap.py kind kubectl
+      - run: python tools/check_gitops.py
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: always()
+        with:
+          name: gitops-evidence
+          path: |
+            artifacts/gitops.json
+            artifacts/gitops-*.txt
+          retention-days: 14
+      - name: Delete disposable cluster
+        if: always()
+        run: |
+          if test -f artifacts/lab.kubeconfig; then
+            python tools/lab.py down
+          fi

@@ -17,7 +17,7 @@ def main():
         ("unit and chart tests", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"]),
         ("helm lint", [str(ROOT / ".tools/bin" / ("helm" + suffix)), "lint", "charts/service", "--strict"]),
         ("alert rule evaluation", [sys.executable, "tools/check_rules.py"]),
-        ("workflow validation", [str(ROOT / ".tools/bin" / ("actionlint" + suffix)), "-shellcheck=", "-pyflakes=", ".github/workflows/ci.yaml", ".github/workflows/publish.yaml"]),
+        ("workflow validation", [str(ROOT / ".tools/bin" / ("actionlint" + suffix)), "-shellcheck=", "-pyflakes=", ".github/workflows/ci.yaml", ".github/workflows/publish.yaml", ".github/workflows/gitops.yaml"]),
     ]
     report = {"recorded_at": datetime.now(timezone.utc).isoformat(), "checks": [],
               "scope": "No cluster or container runtime used. Kubernetes recovery is checked by the separate integration job."}

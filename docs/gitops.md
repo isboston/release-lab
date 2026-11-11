@@ -1,6 +1,8 @@
 # Optional GitOps walkthrough
 
-The local recovery drill works without publishing this repository. This walkthrough requires a reachable Git repository, a published probe image, and an Argo CD installation. It has a separate validation status from the Helm exercise.
+The local recovery drill works without publishing this repository. This walkthrough uses a reachable Git repository, a published probe image, and Argo CD. It has a separate [validation status](validation.md) from the Helm exercise.
+
+The checked-in `services/demo` example uses this repository and a real, publicly pullable image digest. Run `python tools/check_gitops.py` to create the local cluster, install the pinned Argo CD release, deploy that example, and verify correction of a manual replica-count change. It leaves the cluster running for inspection; use `python tools/lab.py down` to remove it. The manual **Verify GitOps onboarding** workflow runs the same check on GitHub.
 
 ## 1. Publish the image
 

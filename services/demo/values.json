@@ -1,0 +1,9 @@
+{
+  "owner": "platform-team",
+  "image": {
+    "repository": "ghcr.io/isboston/release-lab",
+    "tag": "",
+    "digest": "sha256:e504ada48ade6e14b5ca21e97e920a3d2de827fe746ef4055874c0c8be7dc8dd"
+  },
+  "appVersion": "e504ada48ade"
+}

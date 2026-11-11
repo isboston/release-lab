@@ -111,6 +111,8 @@ It uploads diagnostic evidence and removes its disposable cluster. There are no 
 
 `Publish probe image` is a separate manual workflow. It publishes a commit-tagged image to GHCR, requests SBOM/provenance generation, and prints the immutable digest in the job summary. Read the validation record before treating any configured workflow as a completed run.
 
+`Verify GitOps onboarding` deploys the checked-in demo through Argo CD, verifies a functional request, scales the Deployment manually, and checks that reconciliation restores the declared replica count.
+
 ## Scope
 
 - One local cluster, one workload, no database or persistent application data.

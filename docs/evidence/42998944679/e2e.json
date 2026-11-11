@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-11-11T09:54:44.358955+00:00",
+  "cluster": "release-lab",
+  "checks": [
+    {
+      "name": "readiness failure and recovery",
+      "passed": true,
+      "elapsed_seconds": 43.2,
+      "recovery_seconds": 1.33,
+      "recovery_check_attempts": 1
+    },
+    {
+      "name": "business failure and recovery",
+      "passed": true,
+      "elapsed_seconds": 12.98,
+      "recovery_seconds": 6.75,
+      "recovery_check_attempts": 1
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "mounted_configuration": "valid",
+  "healthy_scrape_targets": 2,
+  "grafana_dashboard": "release-lab"
+}

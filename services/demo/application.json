@@ -1,0 +1,42 @@
+{
+  "apiVersion": "argoproj.io/v1alpha1",
+  "kind": "Application",
+  "metadata": {
+    "name": "demo",
+    "namespace": "argocd",
+    "labels": {
+      "owner": "platform-team"
+    }
+  },
+  "spec": {
+    "project": "demo",
+    "source": {
+      "repoURL": "https://github.com/isboston/release-lab.git",
+      "targetRevision": "main",
+      "path": "charts/service",
+      "helm": {
+        "valueFiles": [
+          "../../services/demo/values.json"
+        ]
+      }
+    },
+    "destination": {
+      "server": "https://kubernetes.default.svc",
+      "namespace": "demo"
+    },
+    "syncPolicy": {
+      "automated": {
+        "prune": false,
+        "selfHeal": true
+      },
+      "retry": {
+        "limit": 3,
+        "backoff": {
+          "duration": "5s",
+          "factor": 2,
+          "maxDuration": "1m"
+        }
+      }
+    }
+  }
+}
