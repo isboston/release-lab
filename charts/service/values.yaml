@@ -1,0 +1,21 @@
+replicaCount: 2
+image:
+  repository: release-probe
+  tag: dev
+  digest: ""
+  pullPolicy: IfNotPresent
+appVersion: dev
+readinessMode: ready
+workMode: ok
+owner: platform
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 250m
+    memory: 96Mi
+networkPolicy:
+  enabled: false
+  # Only namespaces carrying this label may reach HTTP when the policy is enabled.
+  ingressNamespaceLabel: release-lab-client

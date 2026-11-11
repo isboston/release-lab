@@ -1,0 +1,43 @@
+rule_files: [rules.yml]
+evaluation_interval: 5s
+tests:
+  - name: sustained business errors page the operator
+    interval: 5s
+    input_series:
+      - series: release_lab_requests_total{status="200",route="/work",pod="probe-1"}
+        values: '0+9x60'
+      - series: release_lab_requests_total{status="503",route="/work",pod="probe-1"}
+        values: '0+1x60'
+      - series: release_lab_ready{pod="probe-1"}
+        values: '1+0x60'
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: BusinessRequestsFailing
+        exp_alerts:
+          - exp_labels: {severity: warning}
+            exp_annotations:
+              summary: More than 5% of business requests are failing
+              description: Check /work, identify the release, and follow docs/runbook.md.
+  - name: a single error with no sustained traffic does not page
+    interval: 5s
+    input_series:
+      - series: release_lab_requests_total{status="503",route="/work",pod="probe-1"}
+        values: '0 1+0x59'
+      - series: release_lab_requests_total{status="200",route="/work",pod="probe-1"}
+        values: '0+0x60'
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: BusinessRequestsFailing
+        exp_alerts: []
+  - name: loss of all ready processes is detected
+    interval: 5s
+    input_series:
+      - series: release_lab_ready{pod="probe-1"}
+        values: '0+0x20'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: NoReadyProbe
+        exp_alerts:
+          - exp_labels: {severity: critical}
+            exp_annotations:
+              summary: No Ready probe process is being observed

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["replicaCount", "image", "appVersion", "owner", "readinessMode", "workMode"],
+  "properties": {
+    "replicaCount": {"type": "integer", "minimum": 1, "maximum": 10},
+    "appVersion": {"type": "string", "minLength": 1, "maxLength": 128},
+    "owner": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"},
+    "readinessMode": {"enum": ["ready", "fail"]},
+    "workMode": {"enum": ["ok", "fail"]},
+    "image": {
+      "type": "object",
+      "required": ["repository", "tag", "digest", "pullPolicy"],
+      "properties": {
+        "repository": {"type": "string", "pattern": "^[a-z0-9][a-z0-9./:_-]+$"},
+        "tag": {"type": "string", "pattern": "^$|^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$"},
+        "digest": {"type": "string", "pattern": "^$|^sha256:[a-f0-9]{64}$"},
+        "pullPolicy": {"enum": ["Always", "IfNotPresent", "Never"]}
+      },
+      "anyOf": [
+        {"properties": {"tag": {"minLength": 1}}},
+        {"properties": {"digest": {"minLength": 1}}}
+      ]
+    }
+  }
+}

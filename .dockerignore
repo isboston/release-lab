@@ -1,0 +1,11 @@
+.git
+.tools
+artifacts
+**/__pycache__
+tests
+docs
+charts
+monitoring
+tools
+gitops
+.github
